@@ -36,4 +36,92 @@ Potentiometer connections
 ![image](https://github.com/anshusrinivas/Curious/assets/156586065/3e4ad1a1-efa7-4600-9165-087ebd18ab5b)
 
 
+VSD Squadron mini code
+```
+#include<Wire.h>
+#include<String.h>
+#define TX PD5
+#define RX PD6
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(TX,OUTPUT);
+  pinMode(RX,INPUT);
+  Serial.begin(9600);
+  Wire.begin();
+  Serial.println("Initializing...");
+  Serial.println("initialized");
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+ if(Serial.available()){
+  String inp=Serial.readString();
+  if(inp!='\0'){
+  Serial.println(inp);
+  Serial.println("Write \n");
+  for(int i=0;i<16;i++)
+  {
+    deviceWriteOneByte(inp[i],inp[i]);
+    delay(5);  
+  }
+  Serial.println("Write Finish!\r\n");
+  }
+ }
+}
+
+void deviceWriteOneByte(uint8_t addr, uint8_t data)
+{
+  Wire.beginTransmission(0x50);  //transmit to device AT24C02
+  //Wire.write(addr);
+  Wire.write(data);
+  Wire.endTransmission();
+}
+```
+
+Arduino Code
+```
+#include <Wire.h>
+#include<LiquidCrystal.h>
+#include<string.h>
+
+#define SLAVE_ADDRESS 0x50
+LiquidCrystal lcd( 12,11,5,4,3,2);
+String inp;
+void setup() {
+  Wire.begin(SLAVE_ADDRESS); // Initialize the I2C bus as slave
+  Wire.onReceive(receiveEvent); // Register a function to be called when data is received
+  Wire.onRequest(requestEvent); // Register a function to be called when data is requested
+  lcd.begin(16,2);
+  Serial.begin(9600); // Initialize serial communication for debugging
+  lcd.clear();
+}
+
+void receiveEvent(int howMany) {
+  inp="";
+  while (Wire.available()) {
+    char c = Wire.read();
+    if(c!='\0'){
+      
+      inp+=c;
+    }
+    //lcd.print(c);    
+    //Serial.print(c); // Print the received data to the serial monitor
+  }
+  
+  Serial.print(inp);
+  lcd.print(inp);
+  
+}
+
+void requestEvent() {
+  Wire.write("Ack!"); // Respond with 6 bytes
+}
+
+void loop() {
+} 
+```
+
+https://github.com/anshusrinivas/Curious/assets/156586065/af056711-db7a-455d-96e9-50c8b261553a
+
 
