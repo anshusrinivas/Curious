@@ -65,7 +65,7 @@ This project involves creating a simple embedded system using an HC-05 Bluetooth
 
 
 
-VSD Squadron mini code
+## VSD Squadron mini code
 ```
 #include<Wire.h>
 #include<String.h>
@@ -108,7 +108,7 @@ void deviceWriteOneByte(uint8_t addr, uint8_t data)
 }
 ```
 
-Arduino Code
+## Arduino Code
 ```
 #include <Wire.h>
 #include<LiquidCrystal.h>
