@@ -125,3 +125,7 @@ void loop() {
 https://github.com/anshusrinivas/Curious/assets/156586065/af056711-db7a-455d-96e9-50c8b261553a
 
 
+
+
+https://github.com/anshusrinivas/Curious/assets/156586065/1c3925f0-aac9-4bee-85f9-dbd9a43ca737
+
