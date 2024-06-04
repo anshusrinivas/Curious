@@ -17,7 +17,8 @@ This project involves creating a simple embedded system using an HC-05 Bluetooth
 
 
 # Circuit Connection
- ![pin diagram](https://github.com/anshusrinivas/Curious/assets/156586065/b6dab56a-855f-42ad-ab48-a7e9fbf816bb)
+![VSDSquadron mini](https://github.com/anshusrinivas/Curious/assets/156586065/ad57b387-5987-481b-a9b9-3e11fdf405fa)
+
 
 
 
