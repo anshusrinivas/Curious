@@ -10,6 +10,7 @@ void setup() {
   Serial.begin(9600);
   Wire.begin();
   Serial.println("Initializing...");
+  delay(500);
   Serial.println("initialized");
 }
 
@@ -18,22 +19,21 @@ void loop() {
  if(Serial.available()){
   String inp=Serial.readString();
   if(inp!='\0'){
-  Serial.println(inp);
-  Serial.println("Write \n");
+  //Serial.println(inp);
+  //Serial.println("Write \n");
   for(int i=0;i<16;i++)
   {
-    deviceWriteOneByte(inp[i],inp[i]);
+    deviceWriteOneByte(inp[i]);
     delay(5);  
   }
-  Serial.println("Write Finish!\r\n");
+  //Serial.println("Write Finish!\r\n");
   }
  }
 }
 
-void deviceWriteOneByte(uint8_t addr, uint8_t data)
+void deviceWriteOneByte(uint8_t data)
 {
-  Wire.beginTransmission(0x50);  //transmit to device AT24C02
-  //Wire.write(addr);
+  Wire.beginTransmission(0x50);  //transmit to device AT24C02  
   Wire.write(data);
   Wire.endTransmission();
 }
