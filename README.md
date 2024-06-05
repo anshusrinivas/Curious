@@ -17,26 +17,56 @@ This project involves creating a simple embedded system using an HC-05 Bluetooth
 
 
 # Circuit Connection
- ![pin diagram](https://github.com/anshusrinivas/Curious/assets/156586065/b6dab56a-855f-42ad-ab48-a7e9fbf816bb)
+![VSDSquadron mini](https://github.com/anshusrinivas/Curious/assets/156586065/ad57b387-5987-481b-a9b9-3e11fdf405fa)
 
 
 
-# Pin Connection Table
-LCD module pin table
 
-![image](https://github.com/anshusrinivas/Curious/assets/156586065/cf746de7-786b-4bc3-899e-3118145b7f15)
+# Pin Tables
 
-Bluetooth pin table
+## VSD Squadron mini to HC-05 Bluetooth Module
 
-![image](https://github.com/anshusrinivas/Curious/assets/156586065/dbe894bf-1bd8-4f92-a75f-e7ab313e20a5)
+| VSD Squadron mini Pin | HC-05 Bluetooth Module Pin | Function  |
+|-----------------------|----------------------------|-----------|
+| PD5                   | Bluetooth TX               | INPUT     |
+| PD6                   | Bluetooth RX               | OUTPUT    |
+| 5V                    | Bluetooth VCC              | POWER     |
+| GND                   | Bluetooth GND              | POWER     |
+
+## VSD Squadron mini to Arduino
+
+| VSD Squadron mini Pin | Arduino Pin | Function |
+|-----------------------|-------------|----------|
+| PC2                   | SCL         | INOUT    |
+| PC1                   | SDA         | INOUT    |
+
+## Arduino to LCD
+
+| Arduino Pin | LCD Pin         | Function |
+|-------------|-----------------|----------|
+| GND         | VSS             | POWER    |
+| 5V          | VCC             | POWER    |
+| D12         | Register Select | OUTPUT   |
+| GND         | Read / Write    | OUTPUT   |
+| D11         | Enable          | OUTPUT   |
+| D5          | DB4             | OUTPUT   |
+| D4          | DB5             | OUTPUT   |
+| D3          | DB6             | OUTPUT   |
+| D2          | DB7             | OUTPUT   |
+| GND         | Backlight(-)    | POWER    |
+| VCC         | Backlight(+)    | POWER    |
+
+## Potentiometer Connections
+
+| LCD Pin       | Potentiometer Pin   |
+|---------------|---------------------|
+| VCC           | Terminal 1          |
+| LCD Contrast  | Terminal 2 (Wiper)  |
+| GND           | Terminal 3          |
 
 
-Potentiometer connections
 
-![image](https://github.com/anshusrinivas/Curious/assets/156586065/3e4ad1a1-efa7-4600-9165-087ebd18ab5b)
-
-
-VSD Squadron mini code
+## VSD Squadron mini code
 ```
 #include<Wire.h>
 #include<String.h>
@@ -79,7 +109,7 @@ void deviceWriteOneByte(uint8_t addr, uint8_t data)
 }
 ```
 
-Arduino Code
+## Arduino Code
 ```
 #include <Wire.h>
 #include<LiquidCrystal.h>
@@ -124,4 +154,8 @@ void loop() {
 
 https://github.com/anshusrinivas/Curious/assets/156586065/af056711-db7a-455d-96e9-50c8b261553a
 
+
+
+
+https://github.com/anshusrinivas/Curious/assets/156586065/1c3925f0-aac9-4bee-85f9-dbd9a43ca737
 
