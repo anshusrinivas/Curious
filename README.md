@@ -72,7 +72,7 @@ This project involves creating a simple embedded system using an HC-05 Bluetooth
 #include<String.h>
 #define TX PD5
 #define RX PD6
-
+String ret;
 void setup() {
   // put your setup code here, to run once:
   pinMode(TX,OUTPUT);
@@ -86,6 +86,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  ret="";
  if(Serial.available()){
   String inp=Serial.readString();
   if(inp!='\0'){
@@ -97,8 +98,29 @@ void loop() {
     delay(5);  
   }
   //Serial.println("Write Finish!\r\n");
+  for(int i=0;i<15;i++){
+    char c=deviceReadOneByte();
+    if(c!='\0')
+      ret+=c;
+  }
+  Serial.println(ret);
+  if(ret==inp){
+    Serial.println("Transmission successful. No data lost");
+
+  }
+  else{
+    Serial.println("Transmission unsuccessful. Data is lost");
+  }
   }
  }
+}
+uint8_t deviceReadOneByte()
+{
+  Wire.requestFrom(0x50,1);
+  while (Wire.available())
+  {
+    return Wire.read();
+  }
 }
 
 void deviceWriteOneByte(uint8_t data)
@@ -118,13 +140,15 @@ void deviceWriteOneByte(uint8_t data)
 #define SLAVE_ADDRESS 0x50
 LiquidCrystal lcd( 12,11,5,4,3,2);
 String inp;
+String ret;
 int a;
+int l=0;
 void setup() {
-  Wire.begin(SLAVE_ADDRESS); // Initialize the I2C bus as slave
-  Wire.onReceive(receiveEvent); // Register a function to be called when data is received
-  //Wire.onRequest(requestEvent); // Register a function to be called when data is requested
+  Wire.begin(SLAVE_ADDRESS);
+  Wire.onReceive(receiveEvent);
+  Wire.onRequest(ret_dat);
   lcd.begin(16,2);
-  Serial.begin(9600); // Initialize serial communication for debugging
+  Serial.begin(9600); 
   lcd.clear();
   lcd.print("Initializing");
   delay(1000);
@@ -140,17 +164,21 @@ void receiveEvent(int howMany) {
   while (Wire.available()) {
     char c = Wire.read();
     if(c!='\0'){      
-      inp+=c;      
+      inp+=c;
+      ret+=c;      
     }
     if(a==17){
       lcd.clear();
+      //ret="";
       a=1;
     }
     //Serial.println(a);
     //lcd.print(c);    
-    //Serial.print(c); // Print the received data to the serial monitor
+    //Serial.print(c); 
+
   }
-  print_lcd(); 
+  print_lcd();
+  //Serial.println(ret);
 }
 
 void print_lcd(){
@@ -159,7 +187,18 @@ void print_lcd(){
   lcd.print(inp);
   
 }
-
+void ret_dat(){
+  if(ret[l]!='\0'){
+    //Serial.println(ret[l]);
+    Wire.write(ret[l]);
+    delay(5);
+  }
+  l++;
+  if(l==15){
+    l=0;
+    ret="";
+  }
+}
 void loop() {
   
 } 
